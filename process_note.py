@@ -1,6 +1,6 @@
 from openai import OpenAI
 from pydantic import BaseModel, create_model
-from typing import Type, List, Optional
+from typing import Type
 
 INSTRUCTIONS = """
 You are a medical assistant that analyzes patient notes and extracts structured information.
@@ -15,10 +15,10 @@ class ConditionDetail(BaseModel):
     explanation: str
 
 
-def create_patient_condition_model(conditions: List[str]) -> Type[BaseModel]:
+def create_patient_condition_model(conditions: list[str]) -> Type[BaseModel]:
     fields = {}
     for condition in conditions:
-        fields[condition] = (Optional[ConditionDetail], None)
+        fields[condition] = (ConditionDetail, ...)
 
     return create_model("PatientConditions", **fields)
 
