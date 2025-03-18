@@ -1,0 +1,50 @@
+The following is a doctor visit note:
+
+```
+**Patient:** John Doe  
+**DOB:** 01/01/1968  
+**Date:** 03/18/2025
+
+**Chief Complaint:**  
+Chest pain
+
+**Subjective:**  
+Mr. Doe is a 55-year-old male who presents with a complaint of central chest pain that started approximately 2 hours ago while at rest. He describes the pain as a pressure-like sensation, sometimes radiating to his left arm, and accompanied by mild shortness of breath and lightheadedness. He denies nausea, diaphoresis, or palpitations. The patient reports that his father suffered a stroke at age 65 and his mother has a history of type 2 diabetes, which he recognizes as potential risk factors for cardiovascular disease. No previous similar episodes are noted.
+
+**Objective:**  
+- **Vital Signs:** Temperature 98.6°F; Heart Rate 92 bpm; Blood Pressure 140/88 mmHg; Respiratory Rate 18/min; SpO2 97% on room air.  
+- **General:** Patient appears mildly distressed due to discomfort but is alert and oriented.  
+- **Cardiovascular:** Regular rate and rhythm; no murmurs, rubs, or gallops noted on auscultation.  
+- **Respiratory:** Lungs are clear to auscultation bilaterally with no wheezes or crackles.  
+- **Abdominal/Extremities:** Abdomen soft and non-tender; no peripheral edema observed.
+
+**Assessment:**  
+1. **Chest Pain** – Differential includes angina or early acute coronary syndrome, especially given the family history and symptom profile.  
+2. **Cardiovascular Risk Factors** – Family history of stroke and diabetes increases the patient’s risk for coronary artery disease.
+
+**Plan:**  
+- **Diagnostics:**  
+  - Order stat EKG to assess for ischemic changes.  
+  - Obtain cardiac enzymes (troponin, CK-MB) to evaluate for myocardial injury.  
+  - Consider a chest X-ray to rule out alternative causes of chest pain (e.g., pulmonary pathology).  
+- **Management:**  
+  - Initiate oxygen if needed and monitor vital signs closely.  
+  - If EKG or enzyme levels suggest myocardial ischemia, prepare for further management per ACS protocol.  
+- **Risk Factor Counseling:**  
+  - Educate the patient on the importance of lifestyle modifications including diet and exercise.  
+  - Discuss potential referral to cardiology for further evaluation and risk stratification.  
+- **Follow-Up:**  
+  - Reassess the patient’s symptoms and vital signs continuously.  
+  - Instruct the patient to seek immediate medical attention if pain worsens or new symptoms (e.g., shortness of breath, diaphoresis) develop.
+```
+
+Given this note, generate structured responses for the following conditions:
+* chest pain
+* lightheadedness
+* nausea
+* diaphoresis
+* palpitations
+* stroke
+* diabetes
+
+For each condition, set sentiment as positive if and only if the condition applies to the patient.
