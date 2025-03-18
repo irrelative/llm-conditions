@@ -46,5 +46,3 @@ Given this note, generate structured responses for the following conditions:
 * palpitations
 * stroke
 * diabetes
-
-For each condition, set `present` as true if and only if the condition applies to the patient.
