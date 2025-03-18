@@ -1,12 +1,7 @@
-import os
 import json
 from openai import OpenAI
 
-# Initialize the OpenAI client
-client = OpenAI(
-    # This will use the OPENAI_API_KEY environment variable
-    # Make sure to set this in your environment
-)
+client = OpenAI()
 
 def read_note_content(file_path):
     """Read the content of the note file."""
@@ -16,7 +11,6 @@ def read_note_content(file_path):
 def process_medical_note(note_content):
     """Process the medical note using OpenAI API."""
     
-    # Define the response format as JSON
     response_format = {
         "type": "json_object"
     }
