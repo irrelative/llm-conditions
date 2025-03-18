@@ -1,7 +1,6 @@
 import json
 from openai import OpenAI
 from pydantic import BaseModel, Field
-from typing import List, Optional, Dict, Any
 from enum import Enum, auto
 
 client = OpenAI()
@@ -18,7 +17,8 @@ class Condition(BaseModel):
     explanation: str
 
 class MedicalAnalysis(BaseModel):
-    conditions: List[Condition]
+    conditions: list[Condition]
+
 
 def read_note_content(file_path):
     """Read the content of the note file."""
