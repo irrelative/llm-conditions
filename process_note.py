@@ -12,17 +12,9 @@ class SentimentType(str, Enum):
     NEUTRAL = "neutral"
     UNKNOWN = "unknown"
 
-class Condition(BaseModel):
-    condition: str
-    sentiment: SentimentType
-    explanation: str
-
 class ConditionDetail(BaseModel):
     sentiment: SentimentType
     explanation: str
-
-class MedicalAnalysis(BaseModel):
-    conditions: list[Condition]
 
 def create_patient_condition_model(conditions: List[str]) -> Type[BaseModel]:
     """
@@ -48,12 +40,18 @@ def read_note_content(file_path):
     with open(file_path, 'r') as file:
         return file.read()
 
-def process_medical_note(note_content) -> MedicalAnalysis:
+def process_medical_note(note_content):
     """Process the medical note using OpenAI API and return a structured MedicalAnalysis."""
-    
-    response_format = {
-        "type": "json_object"
-    }
+
+    resp_format = create_patient_condition_model([
+        "chest pain",
+        "lightheadedness",
+        "nausea",
+        "diaphoresis",
+        "palpitations",
+        "stroke",
+        "diabetes"
+    ])
     
     # Send the request to OpenAI
     response = client.chat.completions.create(
@@ -62,12 +60,10 @@ def process_medical_note(note_content) -> MedicalAnalysis:
             {"role": "system", "content": "You are a medical assistant that analyzes patient notes and extracts structured information. Extract conditions mentioned in the note with a sentiment value ('positive' for resolved/improving, 'negative' for ongoing/worsening, 'neutral' for stable, 'unknown' for unclear). Return as JSON with a 'conditions' array containing objects with 'condition', 'sentiment', and 'explanation' fields."},
             {"role": "user", "content": note_content}
         ],
-        response_format=response_format,
+        response_format=resp_format,
     )
     
-    # Parse the response into our Pydantic model
-    response_data = json.loads(response.choices[0].message.content)
-    return MedicalAnalysis.model_validate(response_data)
+    return response.choices[0].message.parsed
 
 def main():
     note_path = "note.txt"
