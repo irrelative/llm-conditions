@@ -2,12 +2,19 @@ import json
 from openai import OpenAI
 from pydantic import BaseModel, Field
 from typing import List, Optional, Dict, Any
+from enum import Enum, auto
 
 client = OpenAI()
 
+class SentimentType(str, Enum):
+    POSITIVE = "positive"
+    NEGATIVE = "negative"
+    NEUTRAL = "neutral"
+    UNKNOWN = "unknown"
+
 class Condition(BaseModel):
     condition: str
-    sentiment: bool
+    sentiment: SentimentType
     explanation: str
 
 class MedicalAnalysis(BaseModel):
@@ -29,7 +36,7 @@ def process_medical_note(note_content) -> MedicalAnalysis:
     response = client.chat.completions.create(
         model="gpt-4o",  # Use an appropriate model
         messages=[
-            {"role": "system", "content": "You are a medical assistant that analyzes patient notes and extracts structured information. Extract conditions mentioned in the note with a boolean sentiment (true if positive/resolved, false if negative/ongoing) and a brief explanation. Return as JSON with a 'conditions' array containing objects with 'condition', 'sentiment', and 'explanation' fields."},
+            {"role": "system", "content": "You are a medical assistant that analyzes patient notes and extracts structured information. Extract conditions mentioned in the note with a sentiment value ('positive' for resolved/improving, 'negative' for ongoing/worsening, 'neutral' for stable, 'unknown' for unclear). Return as JSON with a 'conditions' array containing objects with 'condition', 'sentiment', and 'explanation' fields."},
             {"role": "user", "content": note_content}
         ],
         response_format=response_format,
