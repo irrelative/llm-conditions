@@ -41,7 +41,7 @@ def process_medical_note(note_content):
     
     # Send the request to OpenAI
     response = client.chat.completions.create(
-        model="gpt-4-turbo",  # Use an appropriate model
+        model="gpt-4o",  # Use an appropriate model
         messages=[
             {"role": "system", "content": "You are a medical assistant that analyzes patient notes and extracts structured information."},
             {"role": "user", "content": note_content}
