@@ -1,7 +1,8 @@
 import json
 from openai import OpenAI
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, create_model
 from enum import Enum, auto
+from typing import Dict, Type, List, Optional
 
 client = OpenAI()
 
@@ -16,8 +17,30 @@ class Condition(BaseModel):
     sentiment: SentimentType
     explanation: str
 
+class ConditionDetail(BaseModel):
+    sentiment: SentimentType
+    explanation: str
+
 class MedicalAnalysis(BaseModel):
     conditions: list[Condition]
+
+def create_patient_condition_model(conditions: List[str]) -> Type[BaseModel]:
+    """
+    Factory function that creates a Pydantic model with condition names as fields.
+    
+    Args:
+        conditions: List of condition strings to use as field names
+        
+    Returns:
+        A Pydantic model class with each condition as a field mapped to a ConditionDetail
+    """
+    fields = {}
+    for condition in conditions:
+        # Create a field for each condition, with Optional[ConditionDetail] as the type
+        fields[condition] = (Optional[ConditionDetail], None)
+    
+    # Create and return the model class
+    return create_model('PatientConditions', **fields)
 
 
 def read_note_content(file_path):
