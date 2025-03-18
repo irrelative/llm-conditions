@@ -1,15 +1,25 @@
 import json
 from openai import OpenAI
+from pydantic import BaseModel, Field
+from typing import List, Optional, Dict, Any
 
 client = OpenAI()
+
+class Condition(BaseModel):
+    condition: str
+    sentiment: bool
+    explanation: str
+
+class MedicalAnalysis(BaseModel):
+    conditions: List[Condition]
 
 def read_note_content(file_path):
     """Read the content of the note file."""
     with open(file_path, 'r') as file:
         return file.read()
 
-def process_medical_note(note_content):
-    """Process the medical note using OpenAI API."""
+def process_medical_note(note_content) -> MedicalAnalysis:
+    """Process the medical note using OpenAI API and return a structured MedicalAnalysis."""
     
     response_format = {
         "type": "json_object"
@@ -25,8 +35,9 @@ def process_medical_note(note_content):
         response_format=response_format,
     )
     
-    # Extract and return the JSON content
-    return json.loads(response.choices[0].message.content)
+    # Parse the response into our Pydantic model
+    response_data = json.loads(response.choices[0].message.content)
+    return MedicalAnalysis.model_validate(response_data)
 
 def main():
     note_path = "note.txt"
@@ -36,11 +47,11 @@ def main():
         result = process_medical_note(note_content)
         
         # Pretty print the result
-        print(json.dumps(result, indent=2))
+        print(result.model_dump_json(indent=2))
         
         # Optionally save the result to a file
         with open("medical_analysis.json", "w") as f:
-            json.dump(result, indent=2, fp=f)
+            f.write(result.model_dump_json(indent=2))
         
         print("\nAnalysis complete! Results saved to medical_analysis.json")
         
